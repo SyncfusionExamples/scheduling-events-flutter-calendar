@@ -96,7 +96,7 @@ List<Meeting> getMeetingDetails() {
   return meetingCollection;
 }
 ```
-<img alt="Appointments"  src="http://www.syncfusion.com/uploads/user/kb/flut/flut-722/flut-722_img1.jpeg" width="250" height="400" />|
+<img alt="Appointments"  src="http://www.syncfusion.com/uploads/user/kb/flut/flut-722/flut-722_img1.jpeg" width="300" height="500" />|
 
 ## Step 4:
 In the appointment editor class, you can create the custom editor for appointment with required data fields.
@@ -384,7 +384,7 @@ Widget _getAppointmentEditor(BuildContext context) {
       ));
 }
 ```
-<img alt="Appointment Editor"  src="(http://www.syncfusion.com/uploads/user/kb/flut/flut-722/flut-722_img2.jpeg" width="250" height="400" />|
+<img alt="Appointment Editor"  src="(http://www.syncfusion.com/uploads/user/kb/flut/flut-722/flut-722_img2.jpeg" width="300" height="500" />|
 
 ## Step 5:
 `onTap` callback event of the calendar widget will return the tapped element, tapped date and the tapped appointment details and you can edit the appointment and add it to the application.
@@ -527,6 +527,7 @@ Widget build([BuildContext context]) {
                 )));
 }
 ```
+**[View document in Syncfusion Flutter Knowledge base](https://www.syncfusion.com/kb/11204/how-to-design-and-configure-your-appointment-editor-in-flutter-event-calendar-sfcalendar)**
+
 <img alt="Appointment update"  src="http://www.syncfusion.com/uploads/user/kb/flut/flut-722/flut-722_img4.gif" width="250" height="400" />|
 
-**[View document in Syncfusion Flutter Knowledge base](https://www.syncfusion.com/kb/11204/how-to-design-and-configure-your-appointment-editor-in-flutter-event-calendar-sfcalendar)**

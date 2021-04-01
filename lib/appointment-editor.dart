@@ -72,7 +72,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                                     .format(_startDate),
                                 textAlign: TextAlign.left),
                             onTap: () async {
-                              final DateTime date = await showDatePicker(
+                              final DateTime? date = await showDatePicker(
                                 context: context,
                                 initialDate: _startDate,
                                 firstDate: DateTime(1900),
@@ -108,11 +108,12 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                                     textAlign: TextAlign.right,
                                   ),
                                   onTap: () async {
-                                    final TimeOfDay time = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(
-                                            hour: _startTime.hour,
-                                            minute: _startTime.minute));
+                                    final TimeOfDay? time =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay(
+                                                hour: _startTime.hour,
+                                                minute: _startTime.minute));
 
                                     if (time != null && time != _startTime) {
                                       setState(() {
@@ -148,7 +149,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                               textAlign: TextAlign.left,
                             ),
                             onTap: () async {
-                              final DateTime date = await showDatePicker(
+                              final DateTime? date = await showDatePicker(
                                 context: context,
                                 initialDate: _endDate,
                                 firstDate: DateTime(1900),
@@ -186,11 +187,12 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                                     textAlign: TextAlign.right,
                                   ),
                                   onTap: () async {
-                                    final TimeOfDay time = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(
-                                            hour: _endTime.hour,
-                                            minute: _endTime.minute));
+                                    final TimeOfDay? time =
+                                        await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay(
+                                                hour: _endTime.hour,
+                                                minute: _endTime.minute));
 
                                     if (time != null && time != _endTime) {
                                       setState(() {
@@ -289,7 +291,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
   }
 
   @override
-  Widget build([BuildContext context]) {
+  Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -315,10 +317,10 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                     onPressed: () {
                       final List<Meeting> meetings = <Meeting>[];
                       if (_selectedAppointment != null) {
-                        _events.appointments.removeAt(
-                            _events.appointments.indexOf(_selectedAppointment));
+                        _events.appointments!.removeAt(_events.appointments!
+                            .indexOf(_selectedAppointment));
                         _events.notifyListeners(CalendarDataSourceAction.remove,
-                            <Meeting>[]..add(_selectedAppointment));
+                            <Meeting>[]..add(_selectedAppointment!));
                       }
                       meetings.add(Meeting(
                         from: _startDate,
@@ -335,7 +337,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                         eventName: _subject == '' ? '(No title)' : _subject,
                       ));
 
-                      _events.appointments.add(meetings[0]);
+                      _events.appointments!.add(meetings[0]);
 
                       _events.notifyListeners(
                           CalendarDataSourceAction.add, meetings);
@@ -356,10 +358,10 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                 : FloatingActionButton(
                     onPressed: () {
                       if (_selectedAppointment != null) {
-                        _events.appointments.removeAt(
-                            _events.appointments.indexOf(_selectedAppointment));
+                        _events.appointments!.removeAt(_events.appointments!
+                            .indexOf(_selectedAppointment));
                         _events.notifyListeners(CalendarDataSourceAction.remove,
-                            <Meeting>[]..add(_selectedAppointment));
+                            <Meeting>[]..add(_selectedAppointment!));
                         _selectedAppointment = null;
                         Navigator.pop(context);
                       }

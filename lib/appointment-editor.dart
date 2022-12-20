@@ -1,6 +1,8 @@
 part of event_calendar;
 
 class AppointmentEditor extends StatefulWidget {
+  const AppointmentEditor({super.key});
+
   @override
   AppointmentEditorState createState() => AppointmentEditorState();
 }
@@ -22,11 +24,11 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                 },
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 25,
                     color: Colors.black,
                     fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Add title',
                 ),
@@ -38,7 +40,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
             ),
             ListTile(
                 contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                leading: Icon(
+                leading: const Icon(
                   Icons.access_time,
                   color: Colors.black54,
                 ),
@@ -219,7 +221,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                     ])),
             ListTile(
               contentPadding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-              leading: Icon(
+              leading: const Icon(
                 Icons.public,
                 color: Colors.black87,
               ),
@@ -261,7 +263,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.all(5),
-              leading: Icon(
+              leading: const Icon(
                 Icons.subject,
                 color: Colors.black87,
               ),
@@ -272,11 +274,11 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                 },
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
                     fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Add description',
                 ),

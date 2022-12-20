@@ -74,14 +74,23 @@ class EventCalendarState extends State<EventCalendar> {
       CalendarTapCallback calendarTapCallback) {
     return SfCalendar(
         view: _calendarView,
+        allowedViews: const [CalendarView.week, CalendarView.timelineWeek, CalendarView.month],
         dataSource: _calendarDataSource,
         onTap: calendarTapCallback,
+        appointmentBuilder: (context, calendarAppointmentDetails) {
+          final Meeting meeting =
+              calendarAppointmentDetails.appointments.first;
+          return Container(
+            color: meeting.background.withOpacity(0.8),
+            child: Text(meeting.eventName),
+          );
+        },
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day, 0, 0, 0),
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
+        timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 
   void onCalendarViewChange(String value) {

@@ -41,14 +41,12 @@ String _notes = '';
 
 class EventCalendarState extends State<EventCalendar> {
   EventCalendarState();
-
-  CalendarView _calendarView = CalendarView.month;
   late List<String> eventNameCollection;
   late List<Meeting> appointments;
+  CalendarController calendarController = CalendarController();
 
   @override
   void initState() {
-    _calendarView = CalendarView.month;
     appointments = getMeetingDetails();
     _events = DataSource(appointments);
     _selectedAppointment = null;
@@ -65,43 +63,32 @@ class EventCalendarState extends State<EventCalendar> {
         resizeToAvoidBottomInset: false,
         body: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-            child: getEventCalendar(_calendarView, _events, onCalendarTapped)));
+            child: getEventCalendar(_events, onCalendarTapped)));
   }
 
   SfCalendar getEventCalendar(
-      CalendarView _calendarView,
       CalendarDataSource _calendarDataSource,
       CalendarTapCallback calendarTapCallback) {
     return SfCalendar(
-        view: _calendarView,
+        view: CalendarView.month,
+        controller: calendarController,
+        allowedViews: const [CalendarView.week, CalendarView.timelineWeek, CalendarView.month],
         dataSource: _calendarDataSource,
         onTap: calendarTapCallback,
+        appointmentBuilder: (context, calendarAppointmentDetails) {
+          final Meeting meeting =
+              calendarAppointmentDetails.appointments.first;
+          return Container(
+            color: meeting.background.withOpacity(0.8),
+            child: Text(meeting.eventName),
+          );
+        },
         initialDisplayDate: DateTime(DateTime.now().year, DateTime.now().month,
             DateTime.now().day, 0, 0, 0),
-        monthViewSettings: MonthViewSettings(
+        monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-        timeSlotViewSettings: TimeSlotViewSettings(
-            minimumAppointmentDuration: const Duration(minutes: 60)));
-  }
-
-  void onCalendarViewChange(String value) {
-    if (value == 'Day') {
-      _calendarView = CalendarView.day;
-    } else if (value == 'Week') {
-      _calendarView = CalendarView.week;
-    } else if (value == 'Work week') {
-      _calendarView = CalendarView.workWeek;
-    } else if (value == 'Month') {
-      _calendarView = CalendarView.month;
-    } else if (value == 'Timeline day') {
-      _calendarView = CalendarView.timelineDay;
-    } else if (value == 'Timeline week') {
-      _calendarView = CalendarView.timelineWeek;
-    } else if (value == 'Timeline work week') {
-      _calendarView = CalendarView.timelineWorkWeek;
-    }
-
-    setState(() {});
+        timeSlotViewSettings: const TimeSlotViewSettings(
+            minimumAppointmentDuration: Duration(minutes: 60)));
   }
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
@@ -117,8 +104,8 @@ class EventCalendarState extends State<EventCalendar> {
       _selectedTimeZoneIndex = 0;
       _subject = '';
       _notes = '';
-      if (_calendarView == CalendarView.month) {
-        _calendarView = CalendarView.day;
+      if (calendarController.view == CalendarView.month) {
+        calendarController.view = CalendarView.day;
       } else {
         if (calendarTapDetails.appointments != null &&
             calendarTapDetails.appointments!.length == 1) {

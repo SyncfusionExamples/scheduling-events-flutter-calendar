@@ -1,4 +1,4 @@
-name: Secret Value found!
+name: Secret Value found!!
 on:
   push:
   public:
@@ -32,7 +32,7 @@ jobs:
      - name: Install the report tool packages
        if: steps.gitleaks.outcome != 'success'
        run: |
-           nuget install "Syncfusion.Email" -source "https://nexus.syncfusion.com/repository/nuget-hosted/"
-           dir $GITHUB_WORKSPACE/Syncfusion.Email.1.0.0/lib/netcoreapp3.1
-           dotnet $GITHUB_WORKSPACE/Syncfusion.Email.1.0.0/lib/netcoreapp3.1/Email.dll "citeam@syncfusion.com" "$GITHUB_REF_NAME" ${{ secrets.NETWORKCREDENTIALS }} ${{ secrets.NETWORKKEY }} "$GITHUB_WORKSPACE"
+           nuget install "Syncfusion.Email" -source "https://nexus.syncfusion.com/repository/nuget-hosted/" -ExcludeVersion
+           dir $GITHUB_WORKSPACE/Syncfusion.Email/lib/netcoreapp3.1
+           dotnet $GITHUB_WORKSPACE/Syncfusion.Email/lib/netcoreapp3.1/GitleaksReportMail.dll ${{ secrets.CITEAMCREDENTIALS }} "$GITHUB_REF_NAME" ${{ secrets.NETWORKCREDENTIALS }} ${{ secrets.NETWORKKEY }} "$GITHUB_WORKSPACE" ${{ secrets.ORGANIZATIONNAME }}
            exit 1

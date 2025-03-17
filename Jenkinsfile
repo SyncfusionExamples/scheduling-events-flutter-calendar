@@ -1,0 +1,39 @@
+
+name: Secret Value found!!
+on:
+  push:
+  public:
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v4.2.2 
+     - name: Install the gitleaks
+       run: wget https://github.com/zricethezav/gitleaks/releases/download/v8.15.2/gitleaks_8.15.2_linux_x64.tar.gz
+       shell: pwsh
+     - name: Extract the tar file
+       run: tar xzvf gitleaks_8.15.2_linux_x64.tar.gz
+     - name: Generate the report
+       id: gitleaks
+       run: $GITHUB_WORKSPACE/gitleaks detect -s $GITHUB_WORKSPACE -f json -r $GITHUB_WORKSPACE/leaksreport.json
+       shell: bash
+       continue-on-error: true
+     - name: Setup NuGet.exe
+       if: steps.gitleaks.outcome != 'success'
+       uses: nuget/setup-nuget@v1
+       with:
+          nuget-version: latest
+     - name: Install the dotnet
+       if: steps.gitleaks.outcome != 'success'
+       uses: actions/setup-dotnet@v3
+       with:
+          dotnet-version: '3.1.x'
+     - name: Install the report tool packages
+       if: steps.gitleaks.outcome != 'success'
+       run: |
+           nuget install "Syncfusion.Email" -source ${{ secrets.NexusFeedLink }} -ExcludeVersion
+           dir $GITHUB_WORKSPACE/Syncfusion.Email/lib/netcoreapp3.1
+           dotnet $GITHUB_WORKSPACE/Syncfusion.Email/lib/netcoreapp3.1/GitleaksReportMail.dll ${{ secrets.CITEAMCREDENTIALS }} "$GITHUB_REF_NAME" ${{ secrets.NETWORKCREDENTIALS }} ${{ secrets.NETWORKKEY }} "$GITHUB_WORKSPACE" ${{ secrets.ORGANIZATIONNAME }}
+           exit 1

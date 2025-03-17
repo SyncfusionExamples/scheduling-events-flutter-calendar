@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
      - name: Checkout
-       uses: actions/checkout@v3 
+       uses: actions/checkout@v4.2.2 
      - name: Install the gitleaks
        run: wget https://github.com/zricethezav/gitleaks/releases/download/v8.15.2/gitleaks_8.15.2_linux_x64.tar.gz
        shell: pwsh
